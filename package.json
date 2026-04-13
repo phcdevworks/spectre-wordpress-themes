@@ -54,6 +54,7 @@
     "vite": "^8.0.8"
   },
   "dependencies": {
+    "@phcdevworks/spectre-tokens": "^2.2.0",
     "@phcdevworks/spectre-ui": "^1.2.0"
   }
 }
