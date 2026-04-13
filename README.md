@@ -39,7 +39,7 @@ The build is configured around one JavaScript entry and one CSS entry. In produc
 
 This repository is where those frontend foundations are delivered through a WordPress theme. The theme should consume Spectre tokens and Spectre UI output, not redefine them.
 
-By default, the theme stylesheet imports the Spectre UI base bundle, so a fresh install starts from Spectre UI instead of a generic Tailwind-only baseline.
+By default, the theme stylesheet imports the Spectre UI default bundle, so a fresh install starts from Spectre UI instead of a generic Tailwind-only baseline.
 
 ## Repository structure
 
@@ -48,6 +48,8 @@ By default, the theme stylesheet imports the Spectre UI base bundle, so a fresh 
 - spectre-theme contains the WordPress theme files
 - spectre-theme/functions.php handles development and production asset loading
 - spectre-theme/dist receives compiled build output
+
+The deployable WordPress theme directory in this repository is "spectre-theme/". The package and repository name remain "spectre-wordpress-themes".
 - vite.config.ts defines the build and dev-server behavior
 
 ## Development workflow

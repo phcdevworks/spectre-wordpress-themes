@@ -4,7 +4,7 @@
   "description": "Spectre-backed WordPress theme foundation with Vite, TypeScript, and Tailwind CSS 4",
   "type": "module",
   "keywords": [
-    "vite-template",
+    "theme-foundation",
     "vite",
     "wordpress",
     "wordpress-theme",

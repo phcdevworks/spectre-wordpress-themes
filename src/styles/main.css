@@ -1,4 +1,4 @@
-@import tailwindcss;
+@import "tailwindcss";
 @import "@phcdevworks/spectre-ui/index.css";
 
 :root {
