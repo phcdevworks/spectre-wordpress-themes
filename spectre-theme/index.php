@@ -44,15 +44,15 @@
             <?php
             the_posts_pagination(array(
                 'mid_size' => 2,
-                'prev_text' => __('← Previous', 'spectre-theme'),
-                'next_text' => __('Next →', 'spectre-theme'),
+                'prev_text' => __('← Previous', 'spectre-wordpress-themes'),
+                'next_text' => __('Next →', 'spectre-wordpress-themes'),
             ));
             ?>
         </div>
     <?php else : ?>
         <div class="no-posts text-center py-12">
-            <h2 class="text-3xl font-bold mb-4"><?php _e('No posts found', 'spectre-theme'); ?></h2>
-            <p class="text-gray-600"><?php _e('Sorry, no posts were found.', 'spectre-theme'); ?></p>
+            <h2 class="text-3xl font-bold mb-4"><?php _e('No posts found', 'spectre-wordpress-themes'); ?></h2>
+            <p class="text-gray-600"><?php _e('Sorry, no posts were found.', 'spectre-wordpress-themes'); ?></p>
         </div>
     <?php endif; ?>
 </main>
