@@ -1,56 +1,20 @@
-# Source Files - Vite WordPress Template
+# Source Files
 
-This directory contains your development source files that Vite will compile.
+This directory contains the theme-owned frontend source files.
 
-## Structure
+## Core files
 
-```
-src/
-├── js/
-│   └── main.ts          # JavaScript/TypeScript entry point
-├── styles/
-│   └── main.css         # CSS entry point (includes Tailwind)
-└── tokens/              # Design tokens, variables, etc. (optional)
-```
+- "js/main.ts" is the single theme JavaScript entry.
+- "styles/main.css" is the theme stylesheet source imported by "js/main.ts".
 
-## Development
+## Workflow
 
-- Edit files here during development
-- Changes trigger HMR when running `npm run dev`
-- Compiled output goes to `spectre-theme/dist/`
+- Edit files in "src/" during development.
+- Run "npm run dev" for the Vite dev server and HMR.
+- Run "npm run build" to emit compiled assets into "spectre-theme/dist/".
 
-## Adding Files
+## Boundaries
 
-### JavaScript/TypeScript
-
-Create new files in `js/` and import them in `main.ts`:
-
-```typescript
-import "./components/slider";
-import "./utils/helpers";
-```
-
-### CSS
-
-Create new stylesheets and import in `main.css`:
-
-```css
-@import "tailwindcss";
-@import "./components/buttons.css";
-@import "./layouts/grid.css";
-```
-
-### Assets
-
-For images, fonts, etc.:
-
-1. Import in JS/TS files
-2. Or place in `public/` folder for static assets
-3. Or reference in CSS with relative paths
-
-## Notes
-
-- This folder is NOT deployed to WordPress
-- Only the compiled output in `spectre-theme/dist/` is deployed
-- Keep this folder in version control
-- Add `spectre-theme/dist/` to `.gitignore`
+- "src/" is the source of truth for theme CSS and JavaScript.
+- "spectre-theme/dist/" is build output and should not be edited manually.
+- Spectre UI is imported from "@phcdevworks/spectre-ui/index.css" in "styles/main.css".
