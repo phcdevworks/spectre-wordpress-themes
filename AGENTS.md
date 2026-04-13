@@ -1,4 +1,4 @@
-# Spectre Agent Instructions: @phcdevworks/spectre-shell-wordpress
+# Spectre Agent Instructions: @phcdevworks/spectre-wordpress-themes
 
 ### **The WordPress Shell (Layer 6 of the Spectre 8-Layer Arsenal)**
 

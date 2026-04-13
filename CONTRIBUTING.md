@@ -1,6 +1,6 @@
-# Contributing to Spectre Shell WordPress
+# Contributing to Spectre WordPress Themes
 
-Thanks for helping improve Spectre Shell! This package is a reusable template for building modern WordPress themes with Vite, TypeScript, and Tailwind CSS 4.
+Thanks for helping improve Spectre WordPress Themes! This package is a reusable template for building modern WordPress themes with Vite, TypeScript, and Tailwind CSS 4.
 
 ## 🏛️ Spectre Design Philosophy
 
@@ -91,8 +91,8 @@ WordPress themes never ship raw source files—only compiled assets from `dist/`
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/phcdevworks/spectre-shell-wordpress.git
-cd spectre-shell-wordpress
+git clone https://github.com/phcdevworks/spectre-wordpress-themes.git
+cd spectre-wordpress-themes
 ```
 
 2. Install dependencies:
@@ -112,7 +112,7 @@ npm run dev
 ## Project Structure
 
 ```
-spectre-shell-wordpress/
+spectre-wordpress-themes/
 ├── src/
 │   ├── js/
 │   │   └── main.ts          # JavaScript entry point

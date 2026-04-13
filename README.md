@@ -1,15 +1,15 @@
-# @phcdevworks/spectre-shell-wordpress
+# @phcdevworks/spectre-wordpress-themes
 
-[![GitHub issues](https://img.shields.io/github/issues/phcdevworks/spectre-shell-wordpress)](https://github.com/phcdevworks/spectre-shell-wordpress/issues)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/phcdevworks/spectre-shell-wordpress)](https://github.com/phcdevworks/spectre-shell-wordpress/pulls)
-[![License](https://img.shields.io/github/license/phcdevworks/spectre-shell-wordpress)](LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/phcdevworks/spectre-wordpress-themes)](https://github.com/phcdevworks/spectre-wordpress-themes/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/phcdevworks/spectre-wordpress-themes)](https://github.com/phcdevworks/spectre-wordpress-themes/pulls)
+[![License](https://img.shields.io/github/license/phcdevworks/spectre-wordpress-themes)](LICENSE)
 
-`@phcdevworks/spectre-shell-wordpress` is a reusable template for building modern, high-performance WordPress themes.
+`@phcdevworks/spectre-wordpress-themes` is a reusable template for building modern, high-performance WordPress themes.
 
 Maintained by PHCDevworks as part of the Spectre suite, it acts as the "Organs" layer (Layer 6), providing the CMS-specific structure and integration logic. The package bridges modern frontend tooling (Vite, TypeScript, Tailwind CSS 4) with the WordPress theme hierarchy, ensuring Spectre standards are strictly maintained in a CMS environment.
 
 This package's source repository is hosted at
-[`phcdevworks/spectre-shell-wordpress`](https://github.com/phcdevworks/spectre-shell-wordpress).
+[`phcdevworks/spectre-wordpress-themes`](https://github.com/phcdevworks/spectre-wordpress-themes).
 
 ## Key capabilities
 
@@ -25,8 +25,8 @@ This package's source repository is hosted at
 Clone or use this template to start a new WordPress theme:
 
 ```bash
-git clone https://github.com/phcdevworks/spectre-shell-wordpress.git
-cd spectre-shell-wordpress
+git clone https://github.com/phcdevworks/spectre-wordpress-themes.git
+cd spectre-wordpress-themes
 npm install
 ```
 
@@ -92,7 +92,7 @@ Spectre keeps responsibilities separate using a strict 8-Layer Arsenal hierarchy
 - `@phcdevworks/spectre-shell` owns thin shell composition and runtime surface
 - `@phcdevworks/spectre-shell-router` owns URL resolution and navigation primitives
 - `@phcdevworks/spectre-signals` owns reactive primitives only
-- `@phcdevworks/spectre-shell-wordpress` (Layer 6: Organs) owns CMS integration and theme delivery
+- `@phcdevworks/spectre-wordpress-themes` (Layer 6: Organs) owns CMS integration and theme delivery
 
 That separation keeps the tokens and UI components portable and prevents the WordPress integration from defining design logic.
 

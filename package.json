@@ -1,5 +1,5 @@
 {
-  "name": "@phcdevworks/spectre-shell-wordpress",
+  "name": "@phcdevworks/spectre-wordpress-themes",
   "version": "0.0.1",
   "description": "Vite template for WordPress theme development with TypeScript and Tailwind CSS 4",
   "type": "module",
@@ -27,10 +27,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/phcdevworks/spectre-shell-wordpress.git"
+    "url": "https://github.com/phcdevworks/spectre-wordpress-themes.git"
   },
   "bugs": {
-    "url": "https://github.com/phcdevworks/spectre-shell-wordpress/issues"
+    "url": "https://github.com/phcdevworks/spectre-wordpress-themes/issues"
   },
   "homepage": "https://phcdevworks.com",
   "scripts": {
