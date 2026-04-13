@@ -11,10 +11,8 @@ export default defineConfig({
     manifest: true,
     sourcemap: true,
     rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'src/js/main.ts'),
-        style: resolve(__dirname, 'src/styles/main.css')
-      },
+      // The theme owns one JavaScript entry. CSS is emitted from its imports.
+      input: resolve(__dirname, 'src/js/main.ts'),
       output: {
         entryFileNames: 'js/[name].[hash].js',
         chunkFileNames: 'js/[name].[hash].js',

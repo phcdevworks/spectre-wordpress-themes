@@ -1,11 +1,10 @@
 import '../styles/main.css'
 
-// Your TypeScript code here
-console.log('Vite WordPress Theme Loaded!')
+// The theme ships one JS entry and one CSS bundle emitted from this import.
+console.log('Spectre WordPress Themes loaded')
 
-// HMR
 if (import.meta.hot) {
   import.meta.hot.accept(() => {
-    console.log('HMR update')
+    console.log('Spectre WordPress Themes HMR update')
   })
 }

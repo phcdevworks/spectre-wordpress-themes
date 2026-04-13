@@ -4,7 +4,7 @@
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/phcdevworks/spectre-wordpress-themes)](https://github.com/phcdevworks/spectre-wordpress-themes/pulls)
 [![License](https://img.shields.io/github/license/phcdevworks/spectre-wordpress-themes)](LICENSE)
 
-@phcdevworks/spectre-wordpress-themes is a WordPress theme foundation for Spectre-based sites. It combines a standard WordPress theme directory with a Vite build pipeline, a TypeScript client entrypoint, and Tailwind CSS so teams can build theme-owned assets with a modern frontend workflow and deliver them through WordPress.
+@phcdevworks/spectre-wordpress-themes is a high-performance theme foundation for WordPress based sites. It combines a standard WordPress theme directory with a Vite build pipeline, a TypeScript client entrypoint, and Tailwind CSS so teams can build theme-owned assets with a modern frontend workflow and deliver them through WordPress.
 
 This repository is for developers building custom WordPress themes that need to stay aligned with Spectre tokens and Spectre UI without moving design-system ownership into PHP templates.
 

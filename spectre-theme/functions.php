@@ -5,7 +5,6 @@
 
 if (!defined("ABSPATH")) exit;
 
-// Theme setup
 function spectre_wordpress_themes_setup() {
     add_theme_support("title-tag");
     add_theme_support("post-thumbnails");
@@ -18,7 +17,6 @@ function spectre_wordpress_themes_setup() {
 }
 add_action("after_setup_theme", "spectre_wordpress_themes_setup");
 
-// Enqueue Vite assets
 function spectre_wordpress_themes_enqueue_assets() {
     $is_dev = function_exists("wp_get_environment_type")
         ? wp_get_environment_type() === "development"
@@ -26,7 +24,7 @@ function spectre_wordpress_themes_enqueue_assets() {
     $vite_server = defined("VITE_DEV_SERVER") ? rtrim(VITE_DEV_SERVER, "/") : "http://localhost:5173";
 
     if ($is_dev) {
-        // Development mode - load from Vite dev server
+        // Development mode loads the single theme entry from Vite. CSS arrives through the JS import.
         wp_enqueue_script(
             "vite-client",
             $vite_server . "/@vite/client",
@@ -44,41 +42,47 @@ function spectre_wordpress_themes_enqueue_assets() {
             true
         );
         wp_script_add_data("spectre-wordpress-themes-main", "type", "module");
-    } else {
-        // Production mode - load built assets with manifest
-        $manifest_path = get_template_directory() . "/dist/.vite/manifest.json";
-        if (!file_exists($manifest_path)) {
-            if (defined("WP_DEBUG") && WP_DEBUG) {
-                error_log("Vite manifest not found: " . $manifest_path);
-            }
-            return;
+
+        return;
+    }
+
+    $manifest_path = get_template_directory() . "/dist/.vite/manifest.json";
+    if (!file_exists($manifest_path)) {
+        if (defined("WP_DEBUG") && WP_DEBUG) {
+            error_log("Vite manifest not found: " . $manifest_path);
         }
+        return;
+    }
 
-        $manifest = json_decode(file_get_contents($manifest_path), true);
+    $manifest = json_decode(file_get_contents($manifest_path), true);
+    $main_entry = $manifest["src/js/main.ts"] ?? null;
 
-        // Enqueue CSS
-        if (isset($manifest["src/styles/main.css"])) {
-            $css_file = $manifest["src/styles/main.css"]["file"];
+    if (!$main_entry || empty($main_entry["file"])) {
+        if (defined("WP_DEBUG") && WP_DEBUG) {
+            error_log("Main Vite entry not found in manifest: src/js/main.ts");
+        }
+        return;
+    }
+
+    if (!empty($main_entry["css"]) && is_array($main_entry["css"])) {
+        foreach ($main_entry["css"] as $css_file) {
             wp_enqueue_style(
                 "spectre-wordpress-themes-style",
                 get_template_directory_uri() . "/dist/" . $css_file,
                 array(),
                 null
             );
-        }
-
-        // Enqueue JS
-        if (isset($manifest["src/js/main.ts"])) {
-            $js_file = $manifest["src/js/main.ts"]["file"];
-            wp_enqueue_script(
-                "spectre-wordpress-themes-main",
-                get_template_directory_uri() . "/dist/" . $js_file,
-                array(),
-                null,
-                true
-            );
-            wp_script_add_data("spectre-wordpress-themes-main", "type", "module");
+            break;
         }
     }
+
+    wp_enqueue_script(
+        "spectre-wordpress-themes-main",
+        get_template_directory_uri() . "/dist/" . $main_entry["file"],
+        array(),
+        null,
+        true
+    );
+    wp_script_add_data("spectre-wordpress-themes-main", "type", "module");
 }
 add_action("wp_enqueue_scripts", "spectre_wordpress_themes_enqueue_assets");
