@@ -15,6 +15,40 @@ This project is the **WordPress Shell** — a bridge between modern frontend too
 5. **PHP templates are structural.** PHP files handle WordPress integration, template hierarchy, and data access. They do not own visual decisions.
 6. **Theme metadata integrity.** Keep the `style.css` header valid for WordPress theme recognition.
 
+## Drift Prevention
+
+Before adding or changing visual UI, ask where the responsibility belongs:
+
+- **Spectre tokens** define values: color, type, spacing, radius, shadow, motion, breakpoints, and layout scales.
+- **Spectre UI/components** define reusable styling contracts and component behavior.
+- **This theme** defines only WordPress shell structure and theme-specific composition needed to deliver Spectre through WordPress.
+
+Allowed in PHP templates:
+
+- WordPress template hierarchy, loops, conditionals, navigation, metadata, and data escaping
+- Semantic shell classes such as `spectre-site-container`, `spectre-main`, `spectre-panel`, and `spectre-card`
+- Spectre web components such as `<sp-button>` and `<sp-input>`
+
+Avoid in PHP templates:
+
+- Tailwind presentation utilities for color, type, spacing, radius, shadow, or layout decisions
+- Hardcoded CSS values or arbitrary utilities such as `text-white`, `rounded-*`, `shadow-*`, `tracking-*`, `p-*`, `px-*`, `py-*`, `gap-*`, `space-y-*`, `max-w-*`, `w-*`, or `h-*`
+- Hand-built controls when an `<sp-*>` component exists
+
+Allowed in `src/styles/main.css`:
+
+- Imports for Tailwind, Spectre tokens, and Spectre UI
+- Theme shell selectors that map WordPress structure to Spectre token variables
+- CSS values derived from `var(--sp-*)`
+
+Avoid in `src/styles/main.css`:
+
+- Hex, RGB/HSL/OKLCH, gradients, pixel/rem/em constants, or local design values
+- New design-token definitions
+- Component styling that should live in `@phcdevworks/spectre-ui` or `@phcdevworks/spectre-components`
+
+If a new visual pattern feels reusable outside this WordPress shell, do not define it here permanently. Add the smallest token-driven bridge needed for the theme, then note that the pattern should graduate into `@phcdevworks/spectre-ui`.
+
 ## Dependency Contracts
 
 | Package | Role | How to consume |
@@ -46,3 +80,11 @@ When any of these packages updates, run `npm install`, rebuild, and verify the t
 - `npm run lint` — TypeScript and ESLint
 - `npm run lint:php` — PHP syntax validation
 - CI runs all of the above on every push and PR
+
+Run this drift scan before handing off visual/template changes:
+
+```bash
+rg -n "#[0-9a-fA-F]{3,8}|rgb\(|rgba\(|hsl\(|hsla\(|oklch\(|linear-gradient|\btext-white\b|rounded-|shadow-|tracking-|\bprose\b|\btext-[0-9]|\bp-[0-9]|\bpx-[0-9]|\bpy-[0-9]|\bgap-[0-9]|\bspace-y-|\bmax-w-|\bw-[0-9]|\bh-[0-9]|min-width: [0-9]|[0-9]+px|[0-9]+rem|[0-9]+em" src spectre-theme package.json
+```
+
+Expected results should be either empty or token-backed references such as `var(--sp-shadow-*)` and `theme.json` token presets. Any local visual value needs to be removed or justified in the handoff.
