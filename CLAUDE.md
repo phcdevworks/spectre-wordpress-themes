@@ -1,0 +1,171 @@
+# CLAUDE.md — Spectre WordPress Themes
+
+This file is the primary Claude Code project guide. Claude Code is the main AI developer for this repository.
+
+## Project Identity
+
+`@phcdevworks/spectre-wordpress-themes` is the **WordPress Shell** — the bridge between the Spectre design system and the WordPress theme ecosystem. Its job is to deliver Spectre through WordPress, not to redefine it.
+
+**Repository:** `spectre-wordpress-themes`
+**Deployable theme directory:** `spectre-theme/`
+**npm package:** `@phcdevworks/spectre-wordpress-themes`
+
+## Golden Rule
+
+**The CMS delivers; the design system defines.** Never redefine design tokens, hardcode hex colors, or hand-roll visual components in PHP. All visual decisions belong to `@phcdevworks/spectre-tokens`, `@phcdevworks/spectre-ui`, and `@phcdevworks/spectre-components`. This theme consumes them.
+
+## Commands
+
+```bash
+npm install          # Install dependencies
+npm run dev          # Start Vite dev server (http://localhost:5173)
+npm run build        # TypeScript check + Vite production build
+npm run check:assets # Validate Vite manifest and asset contract
+npm run check:drift  # Scan for design-system drift (hardcoded values)
+npm run lint         # ESLint (TypeScript)
+npm run lint:fix     # ESLint with auto-fix
+npm run lint:php     # PHP syntax validation (all .php in spectre-theme/)
+npm run format       # Prettier formatting
+```
+
+Run this sequence before any PR or handoff:
+
+```bash
+npm run build && npm run check:assets && npm run lint && npm run lint:php && npm run check:drift
+```
+
+## Architecture
+
+```
+spectre-wordpress-themes/
+├── src/
+│   ├── js/main.ts          # Theme JS entrypoint — registers Spectre web components
+│   └── styles/main.css     # Theme CSS entrypoint — imports tokens, UI, shell styles
+├── spectre-theme/          # Deployable WordPress theme directory
+│   ├── functions.php       # Asset enqueueing, theme setup, env-aware loading
+│   ├── style.css           # WordPress theme header (no styles — just metadata)
+│   ├── theme.json          # Gutenberg editor tokens (all values from var(--sp-*))
+│   ├── dist/               # Vite build output (never edit directly)
+│   ├── template-parts/     # Reusable PHP template fragments
+│   └── *.php               # WordPress template hierarchy
+├── scripts/
+│   └── check-theme-asset-contract.ts  # Asset contract validator
+├── vite.config.ts          # Build configuration
+└── eslint.config.ts        # ESLint configuration
+```
+
+## Core Directives
+
+1. **Token consumption only.** CSS in `src/styles/` uses `var(--sp-*)` variables exclusively. No hardcoded hex, RGB, rem, px, or em values.
+2. **Use the component system.** Use `<sp-button>`, `<sp-input>`, and other Spectre web components instead of hand-rolling styled elements.
+3. **Environment awareness.** Development loads from the Vite dev server. Production reads the hashed manifest in `spectre-theme/dist/.vite/manifest.json`.
+4. **TypeScript only.** All client-side logic in `src/js/` uses `.ts` files.
+5. **PHP templates are structural.** PHP files handle WordPress integration, template hierarchy, and data access. They do not own visual decisions.
+6. **Theme metadata integrity.** Keep the `style.css` header valid and in sync with `package.json` and `spectre-theme/readme.txt`.
+
+## Dependency Contracts
+
+| Package | Role | How to consume |
+|---|---|---|
+| `@phcdevworks/spectre-tokens` | Design tokens | Import `index.css` for CSS vars |
+| `@phcdevworks/spectre-ui` | Styles and recipes | Import `index.css` |
+| `@phcdevworks/spectre-components` | Web components | `defineSpectreComponents()` in `main.ts`; `<sp-*>` in templates |
+
+When any Spectre package updates, run `npm install`, rebuild, run `check:drift`, and verify rendering.
+
+## Allowed vs. Disallowed
+
+### In PHP templates — Allowed
+- WordPress template hierarchy, loops, conditionals, nav, metadata, data escaping
+- Semantic shell classes: `spectre-site-container`, `spectre-main`, `spectre-panel`, `spectre-card`
+- Spectre web components: `<sp-button>`, `<sp-input>`
+
+### In PHP templates — Avoid
+- Tailwind utilities for color, type, spacing, radius, shadow, or layout decisions
+- Hardcoded CSS values or arbitrary utilities (`text-white`, `rounded-*`, `shadow-*`, `p-*`, `px-*`, `py-*`, `gap-*`, `max-w-*`, `w-*`, `h-*`)
+- Hand-built controls when an `<sp-*>` component exists
+
+### In `src/styles/main.css` — Allowed
+- Imports for Tailwind, Spectre tokens, Spectre UI
+- Shell selectors mapping WordPress structure to Spectre token variables
+- CSS values derived from `var(--sp-*)`
+
+### In `src/styles/main.css` — Avoid
+- Hex, RGB/HSL/OKLCH, gradients, pixel/rem/em constants, or local design values
+- New token definitions
+- Component styling that belongs in `@phcdevworks/spectre-ui`
+
+## Drift Check
+
+Run after any visual or template change:
+
+```bash
+npm run check:drift
+```
+
+This executes:
+
+```bash
+rg -n "#[0-9a-fA-F]{3,8}|rgb\(|rgba\(|hsl\(|hsla\(|oklch\(|linear-gradient|\btext-white\b|rounded-|shadow-|tracking-|\bprose\b|\btext-[0-9]|\bp-[0-9]|\bpx-[0-9]|\bpy-[0-9]|\bgap-[0-9]|\bspace-y-|\bmax-w-|\bw-[0-9]|\bh-[0-9]|min-width: [0-9]|[0-9]+px|[0-9]+rem|[0-9]+em" src spectre-theme package.json
+```
+
+Expected output is empty or only token-backed references like `var(--sp-shadow-*)` and `theme.json` token presets. Any local visual value must be removed or justified before merging.
+
+## Environment Setup
+
+### Local WordPress + Vite HMR
+
+1. Build or start dev server: `npm run dev`
+2. Symlink the theme into WordPress:
+   ```bash
+   ln -s /path/to/spectre-wordpress-themes/spectre-theme /path/to/wordpress/wp-content/themes/spectre-theme
+   ```
+3. Set environment in `wp-config.php`:
+   ```php
+   define('WP_ENVIRONMENT_TYPE', 'development');
+   ```
+4. To change the Vite server port:
+   ```php
+   define('VITE_DEV_SERVER', 'http://localhost:5174');
+   ```
+
+### Production Build
+
+```bash
+npm run build        # Writes hashed assets + manifest to spectre-theme/dist/
+npm run check:assets # Confirm manifest is valid and entry files exist
+```
+
+## What This Repo Owns
+
+- `vite.config.ts` — build and dev server configuration
+- `src/js/main.ts` — theme JavaScript entrypoint
+- `src/styles/main.css` — theme CSS entrypoint
+- `spectre-theme/` — WordPress theme files
+- `spectre-theme/dist/` — compiled build output (never edit directly)
+
+## What This Repo Does Not Own
+
+- Design token values (`@phcdevworks/spectre-tokens`)
+- Component visual contracts (`@phcdevworks/spectre-ui`, `@phcdevworks/spectre-components`)
+- WordPress core, plugin management, or hosting
+
+## Version Sync Checklist
+
+When bumping the version, update all three locations:
+- `package.json` → `"version"`
+- `spectre-theme/style.css` → `Version:` header
+- `spectre-theme/readme.txt` → `Stable tag:`
+
+## CI
+
+GitHub Actions runs on every push and PR to `main`:
+- `npm run build`
+- `npm run check:assets`
+- `npm run lint`
+- `npm run lint:php`
+- `npm run check:drift`
+
+Node matrix: 22.12.0 and 24.x. PHP: 8.2.
+
+WordPress smoke test runs separately and installs a real WordPress instance to verify core routes.

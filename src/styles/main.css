@@ -288,6 +288,7 @@
 
   .spectre-post-navigation {
     flex-direction: column;
+    flex-wrap: wrap;
     justify-content: space-between;
     color: var(--sp-text-on-page-muted);
     font-size: var(--sp-font-sm-size);
@@ -320,7 +321,4 @@
     letter-spacing: var(--sp-font-xs-letter-spacing);
   }
 
-  .spectre-post-navigation {
-    flex-wrap: wrap;
-  }
 }

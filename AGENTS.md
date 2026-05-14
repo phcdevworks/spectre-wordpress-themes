@@ -1,6 +1,8 @@
 # Agent Instructions: @phcdevworks/spectre-wordpress-themes
 
-This project is the **WordPress Shell** — a bridge between modern frontend tooling and the WordPress theme ecosystem. Its job is to deliver the Spectre design system through a WordPress theme, not to redefine it.
+**Primary AI developer:** Claude Code (Anthropic). This project is maintained by Claude Code as the primary AI agent. See `CLAUDE.md` for the complete Claude Code project guide.
+
+This file provides supplementary instructions for any additional AI agents working in this repository. The canonical guidance lives in `CLAUDE.md`.
 
 ## The Golden Rule
 
@@ -13,7 +15,7 @@ This project is the **WordPress Shell** — a bridge between modern frontend too
 3. **Environment awareness.** Respect `WP_ENV` / `wp_get_environment_type()`. Development loads from the Vite dev server. Production reads from the hashed manifest in `dist/`.
 4. **TypeScript only.** All client-side logic in `src/js/` uses TypeScript.
 5. **PHP templates are structural.** PHP files handle WordPress integration, template hierarchy, and data access. They do not own visual decisions.
-6. **Theme metadata integrity.** Keep the `style.css` header valid for WordPress theme recognition.
+6. **Theme metadata integrity.** Keep the `style.css` header valid and version-synced with `package.json` and `spectre-theme/readme.txt`.
 
 ## Drift Prevention
 
@@ -59,24 +61,11 @@ If a new visual pattern feels reusable outside this WordPress shell, do not defi
 
 When any of these packages updates, run `npm install`, rebuild, and verify the theme still renders correctly.
 
-## What this repo owns
-
-- `vite.config.ts` — build and dev server configuration
-- `src/js/main.ts` — theme JavaScript entrypoint
-- `src/styles/main.css` — theme CSS entrypoint
-- `spectre-theme/` — WordPress theme files (PHP templates, `style.css`, `functions.php`, `theme.json`)
-- `spectre-theme/dist/` — compiled build output (never edit directly)
-
-## What this repo does not own
-
-- Design token values
-- Component visual contracts
-- WordPress core, plugin management, or hosting
-
 ## Validation
 
 - `npm run build` — must succeed cleanly
 - `npm run check:assets` — validates manifest and asset contract
+- `npm run check:drift` — scans for design-system drift (hardcoded visual values)
 - `npm run lint` — TypeScript and ESLint
 - `npm run lint:php` — PHP syntax validation
 - CI runs all of the above on every push and PR
@@ -84,7 +73,7 @@ When any of these packages updates, run `npm install`, rebuild, and verify the t
 Run this drift scan before handing off visual/template changes:
 
 ```bash
-rg -n "#[0-9a-fA-F]{3,8}|rgb\(|rgba\(|hsl\(|hsla\(|oklch\(|linear-gradient|\btext-white\b|rounded-|shadow-|tracking-|\bprose\b|\btext-[0-9]|\bp-[0-9]|\bpx-[0-9]|\bpy-[0-9]|\bgap-[0-9]|\bspace-y-|\bmax-w-|\bw-[0-9]|\bh-[0-9]|min-width: [0-9]|[0-9]+px|[0-9]+rem|[0-9]+em" src spectre-theme package.json
+npm run check:drift
 ```
 
 Expected results should be either empty or token-backed references such as `var(--sp-shadow-*)` and `theme.json` token presets. Any local visual value needs to be removed or justified in the handoff.

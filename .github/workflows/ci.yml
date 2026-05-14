@@ -52,3 +52,4 @@ jobs:
           npm run check:assets
           npm run lint
           npm run lint:php
+          npm run check:drift
