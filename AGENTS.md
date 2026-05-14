@@ -1,8 +1,18 @@
 # Agent Instructions: @phcdevworks/spectre-wordpress-themes
 
-**Primary AI developer:** Claude Code (Anthropic). This project is maintained by Claude Code as the primary AI agent. See `CLAUDE.md` for the complete Claude Code project guide.
+## Primary AI Developer
 
-This file provides supplementary instructions for any additional AI agents working in this repository. The canonical guidance lives in `CLAUDE.md`.
+**Claude Code** (`claude-sonnet-4-6`) is the designated primary AI developer for
+this repository, maintained on behalf of Bradley Potts
+(brad.potts@coastdigitalgroup.com) at PHCDevworks. All development is driven
+through Claude Code operating from `CLAUDE.md` as the authoritative working
+guide. Human final review and commit authority rests with Bradley Potts.
+
+Claude Code does not create git commits. Changes are prepared and validated,
+then handed off for human review and commit.
+
+This file provides supplementary instructions for any additional AI agents working
+in this repository. The canonical guidance lives in `CLAUDE.md`.
 
 ## The Golden Rule
 

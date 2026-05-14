@@ -4,11 +4,19 @@ This file is the primary Claude Code project guide. Claude Code is the main AI d
 
 ## Project Identity
 
-`@phcdevworks/spectre-wordpress-themes` is the **WordPress Shell** — the bridge between the Spectre design system and the WordPress theme ecosystem. Its job is to deliver Spectre through WordPress, not to redefine it.
+**Package:** `@phcdevworks/spectre-wordpress-themes`
+**Layer:** WordPress Shell — delivers the Spectre design system through WordPress
+**Human owner:** Bradley Potts (brad.potts@coastdigitalgroup.com)
+**Primary AI developer:** Claude Code (claude-sonnet-4-6)
 
 **Repository:** `spectre-wordpress-themes`
 **Deployable theme directory:** `spectre-theme/`
-**npm package:** `@phcdevworks/spectre-wordpress-themes`
+
+## Commit Policy
+
+Claude Code does not create git commits in this repository. Prepare changes,
+run all validation, and leave staging, committing, tagging, and pushing to
+human review.
 
 ## Golden Rule
 
