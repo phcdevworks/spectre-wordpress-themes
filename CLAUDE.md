@@ -12,11 +12,28 @@ This file is the primary Claude Code project guide. Claude Code is the main AI d
 **Repository:** `spectre-wordpress-themes`
 **Deployable theme directory:** `spectre-theme/`
 
+## Multi-Agent Collaboration
+
+This repository uses a two-agent model. See [AGENTS.md](AGENTS.md) for the full
+coordination guide that applies to all AI agents.
+
+| Agent | Role |
+|---|---|
+| **Claude Code** (`claude-sonnet-4-6`) | Primary AI developer — implementation, templates, build, CSS, TypeScript |
+| **OpenAI Codex** | Release-readiness and stewardship — review, drift checks, documentation hygiene, release validation |
+
+Codex does not take implementation lead. Claude Code does not create releases
+or handoff notes. Bradley Potts holds final review and commit authority for both.
+
+Release workflow artifacts live in [.codex/](.codex/):
+- `.codex/release-checklist.md` — Codex release gate steps
+- `.codex/handoff-template.md` — standard handoff summary format
+
 ## Commit Policy
 
-Claude Code does not create git commits in this repository. Prepare changes,
-run all validation, and leave staging, committing, tagging, and pushing to
-human review.
+Neither Claude Code nor Codex creates git commits in this repository. Prepare
+changes, run all validation, and leave staging, committing, tagging, and
+pushing to human review.
 
 ## Golden Rule
 
@@ -58,6 +75,8 @@ spectre-wordpress-themes/
 │   └── *.php               # WordPress template hierarchy
 ├── scripts/
 │   └── check-theme-asset-contract.ts  # Asset contract validator
+├── .codex/                 # Codex release artifacts (checklist, handoff template)
+├── AGENTS.md               # Multi-agent coordination guide (all AI agents read this)
 ├── vite.config.ts          # Build configuration
 └── eslint.config.ts        # ESLint configuration
 ```

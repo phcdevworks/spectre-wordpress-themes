@@ -49,11 +49,11 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
   "devDependencies": {
-    "@types/node": "^25.7.0",
+    "@types/node": "^25.8.0",
     "@typescript-eslint/eslint-plugin": "^8.59.3",
     "@typescript-eslint/parser": "^8.59.3",
     "autoprefixer": "^10.5.0",
-    "eslint": "^10.3.0",
+    "eslint": "^10.4.0",
     "globals": "^17.6.0",
     "jiti": "^2.7.0",
     "postcss": "^8.5.14",
@@ -61,7 +61,7 @@
     "tailwindcss": "^4.3.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.59.3",
-    "vite": "^8.0.12"
+    "vite": "^8.0.13"
   },
   "dependencies": {
     "@phcdevworks/spectre-components": "^1.1.0",

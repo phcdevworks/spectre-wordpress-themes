@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: "en-US"
+early_access: false
+reviews:
+  profile: "assertive"
+  request_changes_workflow: false
+  high_level_summary: true
+  high_level_summary_placeholder: "@coderabbitai summary"
+  auto_title_placeholder: "@coderabbitai"
+  review_status: true
+  commit_status: true
+  collapse_walkthrough: false
+  changed_files_summary: true
+  sequence_diagrams: true
+  assess_linked_issues: true
+  related_issues: true
+  related_prs: true
+  suggested_labels: true
+  auto_apply_labels: false
+  suggested_reviewers: false
+  poem: false
+  abort_on_close: true
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    drafts: false
+  finishing_touches:
+    docstrings:
+      enabled: true
+  tools:
+    eslint:
+      enabled: true
+    phpstan:
+      enabled: true
+      level: default
+    markdownlint:
+      enabled: true
+    gitleaks:
+      enabled: true
+    github-checks:
+      enabled: true
+      timeout_ms: 90000
+    yamllint:
+      enabled: true
+    languagetool:
+      enabled: true
+      level: default
+    actionlint:
+      enabled: true
+  path_instructions:
+    - path: "**/*.ts"
+      instructions: "Enforce strict TypeScript: flag missing type annotations, any usage, and non-null assertions without justification. TypeScript here is build tooling — ensure Vite/PostCSS config and build scripts remain clean and minimal."
+    - path: "src/**"
+      instructions: "Theme entry points and TypeScript build sources. Verify all design values come from token references (@phcdevworks/spectre-tokens). Flag any hardcoded colors, spacing, or typography values — these are drift from the token system."
+    - path: "spectre-theme/**/*.php"
+      instructions: "WordPress theme PHP: verify all output is escaped (esc_html, esc_attr, esc_url), user input is sanitized, template hierarchy follows WordPress conventions, and no direct database queries (use WP APIs). Flag use of deprecated WordPress functions."
+    - path: "spectre-theme/**"
+      instructions: "WordPress theme files. Verify template files follow the WordPress template hierarchy, all hooks use correct priority and argument counts, and no hardcoded URLs or file paths."
+    - path: "scripts/**"
+      instructions: "Build and validation scripts. Verify asset contract checks are accurate and drift detection patterns cover all relevant CSS utility classes."
+    - path: "package.json"
+      instructions: "Review dependency additions carefully. Flag unpinned major versions and verify upstream Spectre packages use compatible semver ranges."
+    - path: "CHANGELOG.md"
+      instructions: "Verify entries follow Keep a Changelog format with correct categorization (Added/Changed/Fixed/Removed) and link to a version tag."
+chat:
+  auto_reply: true
+knowledge_base:
+  opt_out: false
+  learnings:
+    scope: auto
+  issues:
+    scope: auto
+  pull_requests:
+    scope: auto

@@ -14,6 +14,22 @@ then handed off for human review and commit.
 This file provides supplementary instructions for any additional AI agents working
 in this repository. The canonical guidance lives in `CLAUDE.md`.
 
+## Codex Role
+
+OpenAI Codex acts as the release-readiness and repository-stewardship agent for
+this project. Codex does not take implementation lead away from Claude Code.
+Instead, Codex reviews changes, keeps validation honest, checks design-system
+drift, tightens documentation and standards when needed, and prepares clean
+handoff notes for Bradley Potts.
+
+Codex may make targeted edits when asked, especially for release hygiene,
+documentation, validation, small refactors, CI readiness, or correcting issues
+found during review. Codex should keep changes narrow, explain why they are
+needed, and avoid broad feature work unless Bradley explicitly assigns it.
+
+Codex also follows the no-commit policy. Do not create git commits, tags,
+releases, or pushes unless Bradley explicitly asks for that action.
+
 ## The Golden Rule
 
 **The CMS delivers; the design system defines.** Never redefine design tokens, hardcode hex colors, or create UI components in PHP. All visual decisions belong to `@phcdevworks/spectre-tokens`, `@phcdevworks/spectre-ui`, and `@phcdevworks/spectre-components`. This theme consumes them.
@@ -87,3 +103,57 @@ npm run check:drift
 ```
 
 Expected results should be either empty or token-backed references such as `var(--sp-shadow-*)` and `theme.json` token presets. Any local visual value needs to be removed or justified in the handoff.
+
+## Jules Role
+
+Google Jules acts as the autonomous scheduled maintenance agent for this
+repository. Jules runs between human reviews, executing self-contained prompt
+tasks from the CoastAi Agents library.
+
+Jules does not take implementation lead away from Claude Code. Jules handles
+atomic, bounded maintenance work: drift cleanup, upstream sync, release
+readiness validation, and documentation hygiene.
+
+**Prompts for this repository** live in the CoastAi Agents library under
+`phcdevworks/shell/spectre-wordpress-themes/`:
+
+| Prompt file          | Jules task                                                      |
+| -------------------- | --------------------------------------------------------------- |
+| `general-developer`  | Find and fix one atomic shell, template, or build hygiene issue |
+| `sync-developer`     | Sync theme to latest published Spectre packages from NPM        |
+| `release-support`    | Run release readiness checks and fix metadata/docs blockers     |
+
+**Authority order Jules must follow:**
+
+1. `AGENTS.md` in this repository (this file)
+2. `CLAUDE.md` in this repository
+3. The Jules prompt
+
+Jules reads both `AGENTS.md` and `CLAUDE.md` before touching any file.
+
+**Validation gate Jules must pass before committing:**
+
+```bash
+npm run build && npm run check:assets && npm run lint && npm run lint:php && npm run check:drift
+```
+
+Jules follows the no-commit policy for human decisions: version bumps, tags,
+releases, and pushes to `main` require Bradley Potts' explicit action.
+
+## Codex Release Duties
+
+When Bradley loops Codex in before a release, use `.codex/release-checklist.md`
+as the working checklist. At minimum:
+
+- Inspect `git status --short` before editing and preserve unrelated changes.
+- Review changed files for drift from `CLAUDE.md` and this file.
+- Confirm version metadata stays synchronized across `package.json`,
+  `spectre-theme/style.css`, and `spectre-theme/readme.txt` when a version bump
+  is part of the change.
+- Run the validation commands relevant to the change, with the full release gate
+  preferred before handoff:
+  `npm run build && npm run check:assets && npm run lint && npm run lint:php && npm run check:drift`.
+- Document any skipped validation, known risk, or production follow-up clearly.
+- Keep release notes and documentation standardized when code changes alter
+  user-facing behavior, installation steps, build expectations, or package
+  contracts.

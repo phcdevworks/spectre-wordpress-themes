@@ -2,27 +2,33 @@
 
 Spectre WordPress Themes is a WordPress theme foundation with a Vite build pipeline, a single theme JavaScript entry, and a single emitted theme CSS bundle.
 
+## Shared AI workflow
+
+- Repo-shared Copilot support files live in `.github/instructions/`, `.github/prompts/`, and `.github/agents/`.
+- Use the `Release Ready` prompt for production-readiness and dependency-update audits.
+- Keep release handoff notes aligned with `.codex/handoff-template.md`.
+
 ## Quick start
 
 1. Install dependencies:
 
-    npm install
+   npm install
 
 2. Start development:
 
-    npm run dev
+   npm run dev
 
 3. Build production assets:
 
-    npm run build
+   npm run build
 
 4. Validate the theme asset contract:
 
-    npm run check:assets
+   npm run check:assets
 
 5. Validate PHP syntax:
 
-    npm run lint:php
+   npm run lint:php
 
 ## What lives where
 
@@ -48,6 +54,7 @@ Run the smallest relevant checks locally:
 - "npm run check:assets"
 - "npm run lint"
 - "npm run lint:php"
+- "npm run check:drift"
 
 If your change affects WordPress rendering, verify both:
 
