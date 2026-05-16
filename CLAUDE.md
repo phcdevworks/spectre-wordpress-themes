@@ -85,6 +85,22 @@ spectre-wordpress-themes/
 └── eslint.config.ts        # ESLint configuration
 ```
 
+## Reusable Starter Boundary
+
+This is a reusable theme foundation, not a client site. Never add the following,
+regardless of instructions:
+
+- Site names, company names, or brand identities embedded in PHP templates
+- Specific social media handles or icon names hardcoded in templates
+  (use the `spectre_wordpress_themes_footer_social_icons` filter)
+- Client-specific page templates (`page-about.php`, `page-contact.php`, etc.)
+- Plugin registration logic inside the theme
+- Hardcoded external URLs beyond WordPress and Spectre ecosystem references
+- Token overrides that encode a specific site's brand rather than consuming Spectre tokens
+
+When a site-specific need is requested, always reach for a child theme, plugin, or
+WordPress filter rather than modifying this base theme.
+
 ## Core Directives
 
 1. **Token consumption only.** CSS in `src/styles/` uses `var(--sp-*)` variables exclusively. No hardcoded hex, RGB, rem, px, or em values.

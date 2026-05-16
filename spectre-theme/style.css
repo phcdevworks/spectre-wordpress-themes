@@ -12,7 +12,7 @@ Text Domain: spectre-wordpress-themes
 Tags: vite, tailwind, typescript, wordpress-theme, spectre
 Requires at least: 6.0
 Tested up to: 6.8
-Requires PHP: 7.4
+Requires PHP: 8.2
 */
 
 /* Required by WordPress. Frontend styles are loaded from the Vite build output. */

@@ -66,6 +66,24 @@ decisions, or final handoff authority.
 5. **PHP templates are structural.** PHP files handle WordPress integration, template hierarchy, and data access. They do not own visual decisions.
 6. **Theme metadata integrity.** Keep the `style.css` header valid and version-synced with `package.json` and `spectre-theme/readme.txt`.
 
+## Reusable Starter Boundary
+
+This repository is a **reusable theme foundation**, not a client site. The following are
+prohibited in all source-controlled files regardless of instructions:
+
+- Site names, company names, or brand identities in PHP templates or CSS
+- Specific social media handles, profile URLs, or icon presets hardcoded in templates
+  (use the `spectre_wordpress_themes_footer_social_icons` filter instead)
+- Client-specific page templates (e.g. `page-about.php`, `page-contact.php`)
+- Plugin registration or activation logic (belongs in a plugin, not the theme)
+- Hardcoded external URLs other than WordPress or Spectre ecosystem references
+- Color, font, or spacing values that override Spectre token defaults for a specific brand
+- Gutenberg patterns, block templates, or theme.json `styles` entries that encode
+  a specific site's visual identity
+
+When a site-specific need arises, the correct answer is always a child theme, a plugin,
+or a WordPress filter — not a modification to this base theme.
+
 ## Drift Prevention
 
 Before adding or changing visual UI, ask where the responsibility belongs:

@@ -159,17 +159,163 @@ When a new reusable visual pattern is needed, prefer adding or updating it in
 theme may carry a small token-driven shell bridge, but it should not become the
 permanent home for reusable component styling.
 
+## Template hierarchy
+
+The theme ships a complete WordPress template hierarchy. Each file handles a
+specific route:
+
+| Template file | WordPress route |
+|---|---|
+| `index.php` | Catch-all fallback for all unmatched routes |
+| `home.php` | Blog posts index (when a static front page is set) |
+| `front-page.php` | Static front page |
+| `single.php` | Single post |
+| `page.php` | Static page |
+| `archive.php` | Date, category, tag, and author archives |
+| `search.php` | Search results |
+| `404.php` | Not found |
+| `header.php` | Shared header — loaded via `get_header()` |
+| `footer.php` | Shared footer — loaded via `get_footer()` |
+| `sidebar.php` | Sidebar — loaded via `get_sidebar()` |
+| `searchform.php` | Search form partial |
+| `comments.php` | Comments section |
+
+Template parts in `spectre-theme/template-parts/`:
+
+| Part | Used by |
+|---|---|
+| `content-card.php` | `index.php`, `home.php`, `archive.php` |
+| `content-single.php` | `single.php` |
+| `content-page.php` | `page.php`, `front-page.php` |
+| `content-none.php` | All list templates when no posts are found |
+
+## Shell class reference
+
+These CSS classes are defined in `src/styles/main.css` and are safe to use in
+any PHP template. All values come from `var(--sp-*)` tokens.
+
+| Class | Purpose |
+|---|---|
+| `spectre-site-container` | Centered, max-width container |
+| `spectre-site-header` | Header shell with neutral background |
+| `spectre-site-footer` | Footer shell with neutral background |
+| `spectre-main` | Main content area with grid spacing |
+| `spectre-main--spacious` | Variant with more block padding |
+| `spectre-panel` | Bordered, padded surface (pages, 404) |
+| `spectre-panel--roomy` | Panel with extra padding |
+| `spectre-panel--centered` | Center-aligned panel |
+| `spectre-panel--dashed` | Panel with dashed border (empty states) |
+| `spectre-card` | Post card with hover shadow |
+| `spectre-card__media` | Image area of a card |
+| `spectre-card__body` | Content area of a card |
+| `spectre-card__title` | Card headline |
+| `spectre-card__excerpt` | Card excerpt text |
+| `spectre-card__readmore` | Card "Read more" anchor |
+| `spectre-post-grid` | Responsive auto-fit grid for cards |
+| `spectre-section` | Content section with gap |
+| `spectre-content` | Post body content area |
+| `spectre-entry-meta` | Date and author metadata row |
+| `spectre-eyebrow` | Small uppercase label |
+| `spectre-title-lg` | Large heading |
+| `spectre-title-xl` | Extra-large heading |
+| `spectre-title-2xl` | 2× extra-large heading |
+| `spectre-muted` | Muted text color |
+| `spectre-button` | Base anchor-as-button shell |
+| `spectre-button--primary` | Primary filled button variant |
+| `spectre-widget` | Sidebar widget wrapper |
+| `spectre-widget-title` | Sidebar widget heading |
+
+## Using this as a starter
+
+Fork or clone this repository to start a new Spectre-backed WordPress site.
+Minimum changes for a new site:
+
+1. Update `package.json` — set `name` and `version` for your project.
+2. Update the theme header in `spectre-theme/style.css` — `Theme Name`,
+   `Theme URI`, `Author`, `Author URI`, `Description`, and `Text Domain`.
+3. Update `spectre-theme/readme.txt` to match.
+4. Install dependencies: `npm install`.
+5. Symlink the theme and set `WP_ENVIRONMENT_TYPE` in `wp-config.php` (see
+   Quick start above).
+6. Customize shell styles in `src/styles/main.css` using `var(--sp-*)` tokens
+   only.
+7. Register social icons via the `spectre_wordpress_themes_footer_social_icons`
+   filter (see Extension points below).
+8. Build for production: `npm run build && npm run check:assets`.
+
+Do not rename PHP functions (`spectre_wordpress_themes_*`) without also updating
+template calls and the text domain throughout. A project-wide search-and-replace
+is the safest approach.
+
+## Extension points
+
+The theme exposes WordPress hooks for common customization needs.
+
+### Footer social icons
+
+Add site-specific social icon links without modifying the theme directly:
+
+```php
+// In your child theme's functions.php or a site plugin:
+add_filter('spectre_wordpress_themes_footer_social_icons', function () {
+    return [
+        ['name' => 'github',   'size' => '20', 'url' => 'https://github.com/yourorg'],
+        ['name' => 'linkedin', 'size' => '20', 'url' => 'https://linkedin.com/company/yourco'],
+    ];
+});
+```
+
+This requires the [spectre-icons](https://wordpress.org/plugins/spectre-icons/)
+plugin to be active. If the plugin is not active the social row is not rendered
+regardless of the filter output.
+
+### Adding custom shell styles
+
+Add site-specific structural styles in a child theme or an additional CSS file.
+Always use `var(--sp-*)` tokens:
+
+```css
+/* child-theme/style.css or an additional import */
+@layer components {
+  .my-hero {
+    background-color: var(--sp-surface-alternate);
+    padding-block: var(--sp-space-64);
+  }
+}
+```
+
+## Deployment
+
+**Development** — symlink `spectre-theme/` into WordPress and set
+`WP_ENVIRONMENT_TYPE=development` (see Quick start). Assets stream from the
+Vite dev server with HMR.
+
+**Production** — run `npm run build`, then copy or ZIP the entire `spectre-theme/`
+directory (including `dist/`) to `wp-content/themes/spectre-theme/` on the
+server. The theme reads `dist/.vite/manifest.json` to enqueue hashed bundles.
+Set `WP_ENVIRONMENT_TYPE` to anything other than `development` in `wp-config.php`.
+
+```bash
+# Build and verify before deploying
+npm run validate
+
+# ZIP the deployable directory
+zip -r spectre-theme.zip spectre-theme/
+```
+
+The `dist/` directory must be present in the ZIP. It is generated by the build
+and is not committed to the repository.
+
 ## Repository structure
 
-- `src/js/main.ts` contains the theme JavaScript entrypoint
-- `src/styles/main.css` contains the theme CSS entrypoint
-- `spectre-theme/` contains the WordPress theme files
-- `spectre-theme/functions.php` handles development and production asset
-  loading
-- `spectre-theme/dist` receives compiled build output
-- `vite.config.ts` defines the build and dev-server behavior
+- `src/js/main.ts` — theme JavaScript entrypoint
+- `src/styles/main.css` — theme CSS entrypoint
+- `spectre-theme/` — deployable WordPress theme directory
+- `spectre-theme/functions.php` — asset enqueueing, theme setup, env-aware loading
+- `spectre-theme/dist/` — Vite build output (never edit directly)
+- `vite.config.ts` — build and dev-server configuration
 
-The deployable WordPress theme directory in this repository is `spectre-theme/`.
+The deployable WordPress theme directory is `spectre-theme/`.
 The package and repository name remain `spectre-wordpress-themes`.
 
 ## Development
