@@ -14,16 +14,20 @@ This file is the primary Claude Code project guide. Claude Code is the main AI d
 
 ## Multi-Agent Collaboration
 
-This repository uses a two-agent model. See [AGENTS.md](AGENTS.md) for the full
+This repository follows the Spectre AI factory model. See [AGENTS.md](AGENTS.md) for the full
 coordination guide that applies to all AI agents.
 
 | Agent | Role |
 |---|---|
 | **Claude Code** (`claude-sonnet-4-6`) | Primary AI developer — implementation, templates, build, CSS, TypeScript |
-| **OpenAI Codex** | Release-readiness and stewardship — review, drift checks, documentation hygiene, release validation |
+| **OpenAI Codex** | Documentation, releases, production stabilization, repo hygiene, config standardization, drift checks, and release validation |
+| **GitHub Copilot** | General development assistance |
+| **Google Jules** | Automated maintenance for small fixes, dependency updates, and micro-updates |
 
-Codex does not take implementation lead. Claude Code does not create releases
-or handoff notes. Bradley Potts holds final review and commit authority for both.
+Codex does not take implementation lead. Copilot assists without ownership.
+Jules must stay within bounded maintenance prompts and must not take on large
+feature work. Bradley Potts holds final review and commit authority unless an
+approved Jules task explicitly commits validated maintenance work.
 
 Release workflow artifacts live in [.codex/](.codex/):
 - `.codex/release-checklist.md` — Codex release gate steps

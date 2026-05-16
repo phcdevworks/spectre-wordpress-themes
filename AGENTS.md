@@ -14,13 +14,29 @@ then handed off for human review and commit.
 This file provides supplementary instructions for any additional AI agents working
 in this repository. The canonical guidance lives in `CLAUDE.md`.
 
+## AI Operating Model
+
+This repository follows the Spectre AI factory model:
+
+| Agent | Role | Authority |
+| ----- | ---- | --------- |
+| Claude Code | Lead developer responsible for primary implementation | `CLAUDE.md` |
+| OpenAI Codex | Documentation, releases, production stabilization, repo hygiene, and config standardization | `CODEX.md` and `.codex/` |
+| GitHub Copilot | General development assistance | `.github/instructions/` |
+| Google Jules | Automated maintenance for small fixes, dependency updates, and micro-updates | Jules task prompts and this file |
+
+Claude Code keeps implementation leadership. Codex keeps release and
+stabilization work clean. Copilot assists without owning decisions. Jules works
+only on bounded automated maintenance and must not take on large feature work.
+
 ## Codex Role
 
-OpenAI Codex acts as the release-readiness and repository-stewardship agent for
-this project. Codex does not take implementation lead away from Claude Code.
-Instead, Codex reviews changes, keeps validation honest, checks design-system
-drift, tightens documentation and standards when needed, and prepares clean
-handoff notes for Bradley Potts.
+OpenAI Codex acts as the documentation, release-readiness, production
+stabilization, repo hygiene, and config standardization agent for this project.
+Codex does not take implementation lead away from Claude Code. Instead, Codex
+reviews changes, keeps validation honest, checks design-system drift, tightens
+documentation and standards when needed, and prepares clean handoff notes for
+Bradley Potts.
 
 Codex may make targeted edits when asked, especially for release hygiene,
 documentation, validation, small refactors, CI readiness, or correcting issues
@@ -29,6 +45,13 @@ needed, and avoid broad feature work unless Bradley explicitly assigns it.
 
 Codex also follows the no-commit policy. Do not create git commits, tags,
 releases, or pushes unless Bradley explicitly asks for that action.
+
+## GitHub Copilot Role
+
+GitHub Copilot provides general development assistance: targeted editing,
+refactor support, documentation synchronization, GitHub workflow support, and
+validation awareness. Copilot does not own implementation direction, release
+decisions, or final handoff authority.
 
 ## The Golden Rule
 
@@ -111,8 +134,9 @@ repository. Jules runs between human reviews, executing self-contained prompt
 tasks from the CoastAi Agents library.
 
 Jules does not take implementation lead away from Claude Code. Jules handles
-atomic, bounded maintenance work: drift cleanup, upstream sync, release
-readiness validation, and documentation hygiene.
+atomic, bounded maintenance work: small fixes, dependency updates, upstream
+sync, release readiness validation, and documentation hygiene. Jules must not
+take on large feature work or release ownership.
 
 **Prompts for this repository** live in the CoastAi Agents library under
 `phcdevworks/shell/spectre-wordpress-themes/`:

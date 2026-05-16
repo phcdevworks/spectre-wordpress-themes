@@ -6,6 +6,8 @@ for `@phcdevworks/spectre-wordpress-themes`.
 ## 1. Orient
 
 - Read `CLAUDE.md` and `AGENTS.md` before changing files.
+- Read `CODEX.md` for Codex-specific release, stabilization, repo hygiene, and
+  config standardization duties.
 - Run `git status --short` and note unrelated work already in progress.
 - Inspect recent diffs with `git diff --stat` and targeted `git diff -- <path>`.
 - Identify whether the change touches templates, styles, TypeScript, build
