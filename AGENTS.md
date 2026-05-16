@@ -110,6 +110,21 @@ If a new visual pattern feels reusable outside this WordPress shell, do not defi
 
 When any of these packages updates, run `npm install`, rebuild, and verify the theme still renders correctly.
 
+## File Safety
+
+| File / directory | Status | Rule |
+|---|---|---|
+| `src/js/main.ts` | Source of truth | Safe to edit |
+| `src/styles/main.css` | Source of truth | Safe to edit; `var(--sp-*)` only |
+| `spectre-theme/*.php` | Source of truth | Safe to edit |
+| `spectre-theme/style.css` | Source of truth | Version header — keep in sync with `package.json` and `readme.txt` |
+| `spectre-theme/theme.json` | Source of truth | All values must come from `var(--sp-*)` |
+| `spectre-theme/dist/` | Generated | Never edit directly — output of `npm run build` |
+| `spectre-theme/dist/.vite/manifest.json` | Generated | Read-only; validated by `npm run check:assets` |
+| `vite.config.ts` | Source of truth | Safe to edit |
+| `package.json` | Source of truth | Version must stay in sync with `style.css` and `readme.txt` |
+| `scripts/check-theme-asset-contract.ts` | Source of truth | Safe to edit; owns `check:assets` validation logic |
+
 ## Validation
 
 - `npm run build` — must succeed cleanly
@@ -158,7 +173,7 @@ Jules reads both `AGENTS.md` and `CLAUDE.md` before touching any file.
 **Validation gate Jules must pass before committing:**
 
 ```bash
-npm run build && npm run check:assets && npm run lint && npm run lint:php && npm run check:drift
+npm run validate
 ```
 
 Jules follows the no-commit policy for human decisions: version bumps, tags,
@@ -175,8 +190,7 @@ as the working checklist. At minimum:
   `spectre-theme/style.css`, and `spectre-theme/readme.txt` when a version bump
   is part of the change.
 - Run the validation commands relevant to the change, with the full release gate
-  preferred before handoff:
-  `npm run build && npm run check:assets && npm run lint && npm run lint:php && npm run check:drift`.
+  preferred before handoff: `npm run validate`.
 - Document any skipped validation, known risk, or production follow-up clearly.
 - Keep release notes and documentation standardized when code changes alter
   user-facing behavior, installation steps, build expectations, or package

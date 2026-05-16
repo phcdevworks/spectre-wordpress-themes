@@ -13,11 +13,41 @@
             </nav>
         <?php endif; ?>
 
-        <?php if (spectre_wordpress_themes_has_icons()) : ?>
+        <?php
+        /**
+         * Filter: spectre_wordpress_themes_footer_social_icons
+         *
+         * Add social icon links to the footer. Requires the spectre-icons plugin.
+         * Each entry: ['name' => 'github', 'size' => '20', 'url' => 'https://...']
+         * 'url' is optional. 'size' defaults to '20'.
+         *
+         * Example (child theme or plugin):
+         *   add_filter('spectre_wordpress_themes_footer_social_icons', function() {
+         *       return [
+         *           ['name' => 'github',   'url' => 'https://github.com/yourorg'],
+         *           ['name' => 'linkedin', 'url' => 'https://linkedin.com/company/yourco'],
+         *       ];
+         *   });
+         */
+        $social_icons = apply_filters('spectre_wordpress_themes_footer_social_icons', array());
+        ?>
+        <?php if (spectre_wordpress_themes_has_icons() && !empty($social_icons)) : ?>
             <div class="spectre-site-footer__social" aria-label="<?php esc_attr_e('Social links', 'spectre-wordpress-themes'); ?>">
-                <?php echo do_shortcode('[spectre-icon name="github" size="20"]'); ?>
-                <?php echo do_shortcode('[spectre-icon name="twitter" size="20"]'); ?>
-                <?php echo do_shortcode('[spectre-icon name="linkedin" size="20"]'); ?>
+                <?php foreach ($social_icons as $icon) :
+                    $icon_name = isset($icon['name']) ? $icon['name'] : '';
+                    $icon_size = isset($icon['size']) ? $icon['size'] : '20';
+                    $icon_url  = isset($icon['url'])  ? $icon['url']  : '';
+                    if (empty($icon_name)) continue;
+                    $shortcode = do_shortcode('[spectre-icon name="' . esc_attr($icon_name) . '" size="' . esc_attr($icon_size) . '"]');
+                    if ($icon_url) :
+                ?>
+                    <a href="<?php echo esc_url($icon_url); ?>" target="_blank" rel="noopener noreferrer">
+                        <?php echo $shortcode; ?>
+                    </a>
+                <?php else :
+                    echo $shortcode;
+                endif;
+                endforeach; ?>
             </div>
         <?php endif; ?>
 

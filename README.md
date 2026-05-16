@@ -1,5 +1,6 @@
 # @phcdevworks/spectre-wordpress-themes
 
+[![CI](https://github.com/phcdevworks/spectre-wordpress-themes/actions/workflows/ci.yml/badge.svg)](https://github.com/phcdevworks/spectre-wordpress-themes/actions/workflows/ci.yml)
 [![GitHub issues](https://img.shields.io/github/issues/phcdevworks/spectre-wordpress-themes)](https://github.com/phcdevworks/spectre-wordpress-themes/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/phcdevworks/spectre-wordpress-themes)](https://github.com/phcdevworks/spectre-wordpress-themes/pulls)
 [![License](https://img.shields.io/github/license/phcdevworks/spectre-wordpress-themes)](LICENSE)
@@ -26,6 +27,24 @@ assets without moving design-system ownership into PHP templates.
   redefining their contracts
 - Keeps PHP templates focused on WordPress structure and data delivery
 
+## When to use this package
+
+- You are building a WordPress site and need Spectre tokens, UI, and web
+  components delivered through a theme
+- You want a Vite + TypeScript build pipeline for theme-owned assets without
+  owning the design system itself
+- You need hot module replacement in development and hashed production assets
+  without writing the plumbing yourself
+
+## When not to use this package
+
+- You want to define design tokens, color scales, typography, or component
+  contracts — those belong in `@phcdevworks/spectre-tokens`,
+  `@phcdevworks/spectre-ui`, and `@phcdevworks/spectre-components`
+- You need a WordPress plugin — plugin logic belongs in a separate plugin
+  repository such as `spectre-icons`
+- You are building a non-WordPress frontend — this package is WordPress-specific
+
 ## Design system guardrail
 
 **The CMS delivers; the design system defines.** This theme should never become
@@ -47,11 +66,13 @@ templates.
 
 ## Installation
 
+**Prerequisites:** Node.js `^22.12.0 || >=24.0.0`, npm `11.14.1`, PHP 8.2, and
+[ripgrep](https://github.com/BurntSushi/ripgrep#installation) (required for
+`check:drift`).
+
 ```bash
 npm install
 ```
-
-This project expects Node.js `^22.12.0 || >=24.0.0` and npm `11.14.1`.
 
 ## Quick start
 
@@ -168,24 +189,28 @@ files.
 
 ## Validation and drift checks
 
-Run the standard validation flow before handing off changes:
+Run the full validation suite before handing off changes:
 
 ```bash
-npm run build
-npm run check:assets
-npm run lint
-npm run lint:php
+npm run validate
 ```
 
-Run this scan after visual or template work to catch design-system drift:
+This runs in order: TypeScript check, Vite build, asset contract, ESLint,
+PHP lint, and drift scan. CI runs the same command.
+
+Step by step:
 
 ```bash
-rg -n "#[0-9a-fA-F]{3,8}|rgb\(|rgba\(|hsl\(|hsla\(|oklch\(|linear-gradient|\btext-white\b|rounded-|shadow-|tracking-|\bprose\b|\btext-[0-9]|\bp-[0-9]|\bpx-[0-9]|\bpy-[0-9]|\bgap-[0-9]|\bspace-y-|\bmax-w-|\bw-[0-9]|\bh-[0-9]|min-width: [0-9]|[0-9]+px|[0-9]+rem|[0-9]+em" src spectre-theme package.json
+npm run build          # TypeScript check + Vite production build
+npm run check:assets   # Validate Vite manifest and asset contract
+npm run lint           # ESLint (TypeScript)
+npm run lint:php       # PHP syntax validation
+npm run check:drift    # Scan for hardcoded visual values (design-system drift)
 ```
 
-Expected results should be empty or clearly token-backed, such as
-`var(--sp-shadow-*)` or `theme.json` token presets. Remove or justify anything
-else before merging.
+`check:drift` expected output is empty or only token-backed references such as
+`var(--sp-shadow-*)` and `theme.json` token presets. Any local visual value
+must be removed or justified before merging.
 
 ## Spectre Icons integration
 
@@ -211,6 +236,33 @@ To check availability before rendering icons in a custom template:
 ```
 
 This pattern works in both the classic editor and the block editor.
+
+## Troubleshooting
+
+**Theme loads a blank page in production**
+The compiled manifest is missing or stale. Run `npm run build` then
+`npm run check:assets` and confirm `spectre-theme/dist/.vite/manifest.json`
+exists and lists `src/js/main.ts` as an entry.
+
+**Styles are not updating in development**
+Confirm `WP_ENVIRONMENT_TYPE` is set to `development` in `wp-config.php` and
+the Vite dev server is running on the expected port (`npm run dev` defaults to
+`http://localhost:5173`). Override with
+`define('VITE_DEV_SERVER', 'http://localhost:5174');` if using a different port.
+
+**`check:drift` reports unexpected matches**
+Drift matches inside `theme.json` or `var(--sp-*)` references are acceptable.
+Any raw hex, pixel, rem, or Tailwind presentation utility added directly to
+`src/` or PHP templates must be replaced with a `var(--sp-*)` token or a
+Spectre component.
+
+**PHP lint fails with syntax error**
+`npm run lint:php` runs `php -l` on every PHP file in `spectre-theme/`. Fix
+the reported file, then rerun. PHP 8.2 is the CI target.
+
+**`rg` not found when running `check:drift`**
+Install [ripgrep](https://github.com/BurntSushi/ripgrep#installation)
+(`brew install ripgrep` on macOS, `apt install ripgrep` on Ubuntu).
 
 ## Notes for implementers
 

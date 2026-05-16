@@ -22,8 +22,10 @@
             <?php the_excerpt(); ?>
         </div>
 
-        <sp-button variant="ghost" onclick="window.location='<?php echo esc_url(get_permalink()); ?>'">
+        <a href="<?php echo esc_url(get_permalink()); ?>"
+           class="spectre-card__readmore"
+           aria-label="<?php echo esc_attr(sprintf(__('Read more about %s', 'spectre-wordpress-themes'), get_the_title())); ?>">
             <?php esc_html_e('Read more', 'spectre-wordpress-themes'); ?>
-        </sp-button>
+        </a>
     </div>
 </article>

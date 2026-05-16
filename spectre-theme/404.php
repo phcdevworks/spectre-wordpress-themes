@@ -11,9 +11,9 @@
         </div>
 
         <p>
-            <sp-button variant="primary" onclick="window.location='<?php echo esc_url(home_url('/')); ?>'">
+            <a href="<?php echo esc_url(home_url('/')); ?>" class="spectre-button spectre-button--primary">
                 <?php esc_html_e('Back to home', 'spectre-wordpress-themes'); ?>
-            </sp-button>
+            </a>
         </p>
     </section>
 </main>

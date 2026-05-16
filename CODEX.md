@@ -42,11 +42,7 @@ maintenance.
 Prefer the full gate for release, dependency, build, asset, or workflow changes:
 
 ```bash
-npm run build
-npm run check:assets
-npm run lint
-npm run lint:php
-npm run check:drift
+npm run validate
 ```
 
 For focused documentation-only changes, validate the edited files and state that

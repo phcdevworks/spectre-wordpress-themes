@@ -311,6 +311,46 @@
     inline-size: 100%;
   }
 
+  .spectre-card__readmore {
+    display: inline-block;
+    color: var(--sp-text-on-page-brand);
+    font-size: var(--sp-font-sm-size);
+    line-height: var(--sp-font-sm-line-height);
+    font-weight: var(--sp-font-sm-weight);
+  }
+
+  .spectre-card__readmore:hover {
+    color: var(--sp-color-brand-700);
+  }
+
+  .spectre-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: var(--sp-space-8);
+    padding-inline: var(--sp-space-16);
+    border: var(--sp-border-width-base) solid transparent;
+    border-radius: var(--sp-radius-md);
+    font-size: var(--sp-font-sm-size);
+    line-height: var(--sp-font-sm-line-height);
+    font-weight: var(--sp-font-sm-weight);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--sp-duration-base) var(--sp-easing-out),
+                border-color var(--sp-duration-base) var(--sp-easing-out);
+  }
+
+  .spectre-button--primary {
+    background-color: var(--sp-color-brand-500);
+    border-color: var(--sp-color-brand-500);
+    color: var(--sp-color-white);
+  }
+
+  .spectre-button--primary:hover {
+    background-color: var(--sp-color-brand-600);
+    border-color: var(--sp-color-brand-600);
+  }
+
   .spectre-widget-title {
     margin-block: 0 var(--sp-space-16);
     color: var(--sp-text-on-page-subtle);

@@ -60,7 +60,7 @@ npm run format       # Prettier formatting
 Run this sequence before any PR or handoff:
 
 ```bash
-npm run build && npm run check:assets && npm run lint && npm run lint:php && npm run check:drift
+npm run validate
 ```
 
 ## Architecture
