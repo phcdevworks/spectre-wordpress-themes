@@ -4,7 +4,7 @@ Spectre WordPress Themes is a WordPress theme foundation with a Vite build pipel
 
 ## Shared AI workflow
 
-- Repo-shared Copilot support files live in `.github/instructions/`, `.github/prompts/`, and `.github/agents/`.
+- Repo-shared Copilot support files live in `.github/copilot-instructions.md`, `.github/instructions/`, `.github/prompts/`, and `.github/agents/`.
 - Use the `Release Ready` prompt for production-readiness and dependency-update audits.
 - Keep release handoff notes aligned with `.codex/handoff-template.md`.
 
