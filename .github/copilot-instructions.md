@@ -33,9 +33,9 @@ handoff authority.
 ## Validation
 
 - Use focused checks first where useful.
-- For release-scoped changes, use the real gate:
-  `npm run build`, `npm run check:assets`, `npm run lint`,
-  `npm run lint:php`, `npm run check:drift`.
+- For release-scoped changes, use the real gate: `npm run check` (alias for
+  `npm run validate`, which runs build, check:assets, lint, lint:php, and
+  check:drift in sequence).
 
 ## References
 

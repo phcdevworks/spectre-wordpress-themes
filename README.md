@@ -338,11 +338,12 @@ files.
 Run the full validation suite before handing off changes:
 
 ```bash
-npm run validate
+npm run check
 ```
 
-This runs in order: TypeScript check, Vite build, asset contract, ESLint,
-PHP lint, and drift scan. CI runs the same command.
+`npm run check` is an alias for `npm run validate`. Both run in order:
+TypeScript check, Vite build, asset contract, ESLint, PHP lint, and drift scan.
+CI runs the same command.
 
 Step by step:
 
@@ -419,6 +420,22 @@ Install [ripgrep](https://github.com/BurntSushi/ripgrep#installation)
   of Spectre token or component definitions
 - Move reusable styling down into Spectre UI/components instead of expanding the
   WordPress shell
+
+## AI and automation boundaries
+
+Claude Code (`claude-sonnet-4-6`) is the primary development agent for this
+repository. Codex handles releases and production stabilization. Jules handles
+small automated fixes and dependency updates. GitHub Copilot provides
+development support.
+
+No agent creates git commits. All changes are prepared and validated, then
+handed off to Bradley Potts for human review and commit.
+
+**Protected from automated change:** the Golden Rule (CMS delivers, design
+system defines — no local token overrides or hardcoded values), PHP template
+structure, and the starter-theme boundary (no client-specific identities or
+brand values in templates). See [AGENTS.md](AGENTS.md) for full agent
+governance and boundary rules.
 
 ## License
 

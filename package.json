@@ -32,21 +32,24 @@
   "bugs": {
     "url": "https://github.com/phcdevworks/spectre-wordpress-themes/issues"
   },
-  "homepage": "https://phcdevworks.com",
+  "homepage": "https://github.com/phcdevworks/spectre-wordpress-themes#readme",
   "engines": {
     "node": "^22.12.0 || >=24.0.0"
   },
   "packageManager": "npm@11.14.1",
   "scripts": {
+    "clean": "rm -rf spectre-theme/dist",
     "dev": "vite",
     "build": "tsc && vite build",
     "check:assets": "node --experimental-strip-types scripts/check-theme-asset-contract.ts",
     "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:php": "find spectre-theme -name \"*.php\" -print0 | xargs -0 -n1 php -l",
     "check:drift": "rg -n \"#[0-9a-fA-F]{3,8}|rgb\\(|rgba\\(|hsl\\(|hsla\\(|oklch\\(|linear-gradient|\\btext-white\\b|rounded-|shadow-|tracking-|\\bprose\\b|\\btext-[0-9]|\\bp-[0-9]|\\bpx-[0-9]|\\bpy-[0-9]|\\bgap-[0-9]|\\bspace-y-|\\bmax-w-|\\bw-[0-9]|\\bh-[0-9]|min-width: [0-9]|[0-9]+px|[0-9]+rem|[0-9]+em\" src spectre-theme package.json || true",
     "validate": "npm run build && npm run check:assets && npm run lint && npm run lint:php && npm run check:drift",
+    "check": "npm run validate",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
   "devDependencies": {
